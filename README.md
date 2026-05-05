@@ -4,6 +4,7 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)
 ![Release](https://img.shields.io/github/v/release/larsmikki/markdown-viewer)
+![Installer size](https://img.shields.io/badge/installer-2.9%20MB-brightgreen)
 
 <kbd><img src="screenshot.png"></kbd>
 
