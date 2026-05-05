@@ -1,0 +1,15 @@
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- page body -->
+  <path d="M4,1 L21,1 L28,8 L28,31 L4,31 Z" fill="#f5f7fb"/>
+  <!-- fold triangle -->
+  <path d="M21,1 L28,8 L21,8 Z" fill="#d0d7e8"/>
+  <!-- border -->
+  <path d="M4,1 L21,1 L28,8 L28,31 L4,31 Z" stroke="#a8b4cc" stroke-width="1" fill="none"/>
+  <!-- fold crease lines -->
+  <line x1="21" y1="1" x2="21" y2="8"  stroke="#a8b4cc" stroke-width="0.8"/>
+  <line x1="21" y1="8" x2="28" y2="8"  stroke="#a8b4cc" stroke-width="0.8"/>
+  <!-- text lines -->
+  <line x1="8" y1="14" x2="24" y2="14" stroke="#c8d0e0" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="8" y1="18" x2="24" y2="18" stroke="#c8d0e0" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="8" y1="22" x2="18" y2="22" stroke="#c8d0e0" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
