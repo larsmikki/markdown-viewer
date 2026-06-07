@@ -10,10 +10,11 @@ public class MainForm : Form
 {
     private readonly WebView2 _webView = new() { Dock = DockStyle.Fill };
     private readonly ToolStripButton _reloadBtn = new("Reload") { Enabled = false };
-    private readonly ToolStripButton _viewSourceBtn = new("View Source") { Enabled = false };
+    private readonly ToolStripButton _viewSourceBtn = new("Edit") { Enabled = false };
+    private readonly ToolStripButton _saveBtn = new("Save") { Enabled = false };
     private readonly ToolStrip _toolStrip = new();
     private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-private readonly ScrollNotifyRtb _sourceView = new() { Dock = DockStyle.Fill, ReadOnly = true, Font = new Font("Consolas", 12), WordWrap = false, BorderStyle = BorderStyle.None, BackColor = SystemColors.Window };
+    private readonly ScrollNotifyRtb _sourceView = new() { Dock = DockStyle.Fill, Font = new Font("Consolas", 12), WordWrap = false, BorderStyle = BorderStyle.None, BackColor = SystemColors.Window };
     private Panel _sourceContainer = null!;
 
     private FileSystemWatcher? _watcher;
@@ -32,8 +33,9 @@ private readonly ScrollNotifyRtb _sourceView = new() { Dock = DockStyle.Fill, Re
         openBtn.Click += (_, _) => PickFile();
         _reloadBtn.Click += async (_, _) => await RenderAsync();
         _viewSourceBtn.Click += async (_, _) => await ToggleSourceView();
+        _saveBtn.Click += async (_, _) => await SaveAsync();
 
-        var toolStrip = new ToolStrip(openBtn, new ToolStripSeparator(), _reloadBtn, new ToolStripSeparator(), _viewSourceBtn)
+        var toolStrip = new ToolStrip(openBtn, new ToolStripSeparator(), _reloadBtn, new ToolStripSeparator(), _viewSourceBtn, new ToolStripSeparator(), _saveBtn)
         {
             GripStyle = ToolStripGripStyle.Hidden,
             Padding = new Padding(4, 2, 0, 2)
@@ -126,6 +128,8 @@ private readonly ScrollNotifyRtb _sourceView = new() { Dock = DockStyle.Fill, Re
         {
             _sourceContainer.Visible = false;
             _webView.Visible = true;
+            _viewSourceBtn.Text = "Edit";
+            _saveBtn.Enabled = false;
         }
         else
         {
@@ -134,6 +138,23 @@ private readonly ScrollNotifyRtb _sourceView = new() { Dock = DockStyle.Fill, Re
             ColorizeSource(md);
             _webView.Visible = false;
             _sourceContainer.Visible = true;
+            _viewSourceBtn.Text = "Preview";
+            _saveBtn.Enabled = true;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        if (_currentFile == null) return;
+        if (_watcher != null) _watcher.EnableRaisingEvents = false;
+        try
+        {
+            await File.WriteAllTextAsync(_currentFile, _sourceView.Text);
+            await RenderAsync();
+        }
+        finally
+        {
+            if (_watcher != null) _watcher.EnableRaisingEvents = true;
         }
     }
 
